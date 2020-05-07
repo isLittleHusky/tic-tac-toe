@@ -24,18 +24,22 @@ class Game
   end
 
   def run
-    until check_win
+    until check_win || check_stalemate
       print_board
       play_round
       end_round
     end
-    print_board
-    if @players[0].char == check_win
-      winner = 1
+    if check_stalemate
+      puts "It's a draw!"
     else
-      winner = 2
+      print_board
+      if @players[0].char == check_win
+        winner = 1
+      else
+        winner = 2
+      end
+      puts "Player #{winner} is the victor!"
     end
-    puts "Player #{winner} is the victor!"
   end
 
   private
@@ -106,6 +110,17 @@ class Game
         end
       end
       false
+    end
+
+    def check_stalemate
+      true
+      @board.each do |row|
+        row.each do |col|
+          if col == " "
+            return false
+          end
+        end
+      end
     end
 
     def end_round

@@ -29,7 +29,8 @@ class Game
       play_round
       end_round
     end
-    if players[0].char == check_win
+    print_board
+    if @players[0].char == check_win
       winner = 1
     else
       winner = 2
@@ -42,13 +43,13 @@ class Game
       for i in 0..2
         for ii in 0..2
           if ii == 1 || ii == 2
-            print "|"
+            print " | "
           end 
           print @board[i][ii] 
         end
         print "\n"
-        if i == 0 or i == 1
-          puts "-----"
+        if i == 0 || i == 1
+          puts "---------"
         end
       end
     end
@@ -60,6 +61,7 @@ class Game
         player = 1
       end
       puts "Player #{player + 1} it's your turn."
+      row = -1
       until [0, 1, 2].include?(row)
         puts "Which row would you like to play in? (1-3)"
         row = gets.chomp.to_i - 1
@@ -67,6 +69,7 @@ class Game
           puts "Try entering a number from 1-3"
         end
       end
+      col = -1
       until [0, 1, 2].include?(col)
         puts "Which column would you like to play in? (1-3)"
         col = gets.chomp.to_i - 1
@@ -85,21 +88,28 @@ class Game
     def check_win #checks if a player has won and returns their character, else returns false
       for i in 0..2
         unless @board[i][0] == " "
-          if @board[i][0] == @board[i][1] == @board[i][2]
+          if @board[i][0] == @board[i][1] && @board[i][0] == @board[i][2]
             return @board[i][0]
           end
         end
         unless @board[0][i] == " "
-          if @board[0][i] == @board[1][i] == @board[2][i]
+          if @board[0][i] == @board[1][i] && @board[0][i] == @board[2][i]
             return @board[0][i]
           end  
+        end
+      end
+      unless @board[1][1] == " "
+        if @board[0][0] == @board[1][1] && @board[0][0] == @board[2][2]
+          return @board[1][1]
+        elsif @board[0][2] == @board[1][1] && @board[0][2] == @board[2][0]
+          return @board[1][1]
         end
       end
       false
     end
 
     def end_round
-      players.each {|player| player.end_turn}
+      @players.each {|player| player.end_turn}
     end
 end
 

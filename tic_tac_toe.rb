@@ -101,6 +101,10 @@ class Game
     def end_round
       players.each {|player| player.end_turn}
     end
-
-
 end
+
+player_one = Player.new("x", true)
+player_two = Player.new("o", false)
+
+game = Game.new(player_one, player_two)
+game.run
